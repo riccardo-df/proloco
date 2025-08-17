@@ -2,45 +2,58 @@
 <html lang="it">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Scegli dove seguirci</title>
   <meta name="description" content="Scegli la nostra pagina Facebook o Instagram." />
   <meta name="theme-color" content="#111827" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
   <style>
     :root { --bg:#0b1220; --fg:#fff; --muted:#94a3b8; --card:#111827; --btn:#2563eb; --btn2:#e1306c; --btn-ink:#fff; }
     @media (prefers-color-scheme: light) {
       :root { --bg:#f8fafc; --fg:#0f172a; --muted:#64748b; --card:#ffffff; }
     }
     * { box-sizing:border-box; }
+    html, body { height:100%; }
     body {
-      margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
-      background:linear-gradient(180deg, var(--bg), #0f172a); color:var(--fg); min-height:100svh;
-      display:grid; place-items:center; padding:24px;
+      margin:0; font-family: system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Helvetica Neue",Arial;
+      background:linear-gradient(180deg, var(--bg), #0f172a); color:var(--fg);
+      min-height:100svh; display:grid; place-items:center; padding:24px;
+      padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+      -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
     }
     .wrap {
-      width:100%; max-width:520px; background:var(--card); border-radius:24px; padding:28px;
+      width:100%; max-width:420px; background:var(--card); border-radius:24px; padding:22px;
       box-shadow: 0 10px 30px rgba(0,0,0,.2);
     }
-    h1 { margin:0 0 8px; font-size: clamp(22px, 3.5vw, 28px); }
-    p  { margin:0 0 20px; color:var(--muted); line-height:1.45 }
+    h1 { margin:0 0 6px; font-size: clamp(20px, 4.5vw, 26px); }
+    p  { margin:0 0 18px; color:var(--muted); line-height:1.45 }
     .buttons { display:grid; gap:14px; margin-top:12px; }
     a.btn {
       display:flex; align-items:center; justify-content:center; gap:10px;
-      text-decoration:none; padding:16px 18px; border-radius:14px; font-weight:700;
+      text-decoration:none; padding:18px 20px; border-radius:16px; font-weight:800; font-size:18px;
       border:1px solid rgba(255,255,255,.08); transition: transform .06s ease, opacity .2s;
-      color:var(--btn-ink); outline-offset:4px;
+      color:var(--btn-ink); outline-offset:4px; -webkit-tap-highlight-color: transparent;
     }
     a.btn:active { transform: translateY(1px) scale(.995); }
     .fb { background:#1877f2; }
     .ig { background:#e1306c; }
     .hint { margin-top:18px; font-size:14px; color:var(--muted); }
-    .brand { display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+    .brand { display:flex; align-items:center; gap:14px; margin-bottom:12px; }
     .logo {
-      width: 100px;
-      height: 100px;
-      border-radius: 50px;   /* arrotonda i bordi, aumenta a 50% se vuoi cerchio */
-      object-fit: cover;     /* adatta l’immagine senza deformarla */
+      width: 96px; height: 96px; border-radius: 50%;
+      object-fit: cover; object-position:center;
       box-shadow: 0 6px 18px rgba(0,0,0,.25);
+      flex: 0 0 auto;
+    }
+    @media (max-width: 420px) {
+      body { padding:16px; padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px)); }
+      .wrap { padding:18px; border-radius:20px; }
+      .brand { gap:12px; }
+      .logo { width:84px; height:84px; }
+      a.btn { padding:16px 18px; font-size:17px; border-radius:14px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * { transition:none !important; animation:none !important; }
     }
     .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
   </style>
@@ -48,30 +61,72 @@
 <body>
   <main class="wrap" role="main">
     <div class="brand">
-      <img class="logo" src="logo.jpeg" alt="Logo Pro Loco" />
+      <!-- Usa il tuo file presente accanto a index.html -->
+      <img class="logo" src="logo.jpeg" alt="Logo Pro Loco" width="96" height="96" loading="lazy" />
       <div>
         <h1>Scegli dove seguirci</h1>
-        <p>Apri la nostra pagina su Facebook o Instagram.</p>
       </div>
     </div>
 
     <div class="buttons">
-      <!-- 🔁 Sostituisci questi URL con le TUE pagine -->
-      <a class="btn fb" href="https://www.facebook.com/share/1A2DyKqZD6/" target="_blank" rel="noopener">
-        <span aria-hidden="true">📘</span> Apri Facebook
+      <!-- MOBILE SMART OPEN: prova app -> fallback web -->
+      <a class="btn fb"
+         href="https://www.facebook.com/share/1A2DyKqZD6/"
+         data-app="fb://facewebmodal/f?href=https://www.facebook.com/share/1A2DyKqZD6/"
+         data-web="https://www.facebook.com/share/1A2DyKqZD6/">
+        <span aria-hidden="true">📘</span> Facebook
       </a>
-      <a class="btn ig" href="https://www.instagram.com/proloco_casanova?igsh=NGN1NmdpbGVub3k1" target="_blank" rel="noopener">
-        <span aria-hidden="true">📷</span> Apri Instagram
+
+      <a class="btn ig"
+         href="https://www.instagram.com/proloco_casanova?igsh=NGN1NmdpbGVub3k1"
+         data-app="instagram://user?username=proloco_casanova"
+         data-web="https://www.instagram.com/proloco_casanova?igsh=NGN1NmdpbGVub3k1">
+        <span aria-hidden="true">📷</span> Instagram
       </a>
     </div>
 
-    <!-- Facoltativo: conteggio click minimale via query string (es. ?src=qr) -->
     <span class="sr-only" id="src"></span>
+
     <script>
-      // Se vuoi tracciare da dove arriva l’utente (es. QR vs sito), aggiungi ?src=qr all’URL del QR
-      const params = new URLSearchParams(location.search);
-      const src = params.get('src');
-      if (src) document.getElementById('src').textContent = `Sorgente: ${src}`;
+      // Traccia sorgente semplice: ?src=qr
+      (function () {
+        const params = new URLSearchParams(location.search);
+        const src = params.get('src');
+        if (src) document.getElementById('src').textContent = `Sorgente: ${src}`;
+      })();
+
+      // Apertura "smart": tenta app nativa -> fallback al web
+      function openSmart(appUrl, webUrl) {
+        const isIOS = /iP(hone|od|ad)/.test(navigator.platform) || /Macintosh/.test(navigator.userAgent) && 'ontouchend' in document;
+        const now = Date.now();
+        let didHide = false;
+
+        const timer = setTimeout(function () {
+          if (!didHide) { window.location.href = webUrl; }
+        }, isIOS ? 1200 : 900);
+
+        // Alcuni browser bloccano iframe; usiamo location per gli scheme
+        window.location.href = appUrl;
+
+        // Se l’utente lascia la pagina perché l’app si apre, annulla il fallback
+        const onBlur = function () { didHide = true; clearTimeout(timer); };
+        window.addEventListener('blur', onBlur, { once: true });
+
+        // Per sicurezza, cancella dopo 3s
+        setTimeout(() => { clearTimeout(timer); window.removeEventListener('blur', onBlur); }, 3000);
+      }
+
+      // Collega i bottoni
+      document.querySelectorAll('a.btn').forEach(a => {
+        const app = a.getAttribute('data-app');
+        const web = a.getAttribute('data-web');
+        if (app && web) {
+          a.addEventListener('click', function (e) {
+            e.preventDefault();
+            openSmart(app, web);
+          }, false);
+        }
+      });
     </script>
   </main>
 </body>
